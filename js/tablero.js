@@ -19,7 +19,6 @@ class Tablero {
     }
 
     nuevaPartida(){
-        // no permitir mover
         for(let i=0; i<this.TABLEROCOLS; i++){ // 7 
             for(let j=0; j<this.TABLEROROWS; j++){  // 6 
                 // RELLENO TODO EL TABLERO DE FICHAS VACIAS

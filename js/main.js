@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // CONSTANTES
-    const FICHASTOTALES = 42;
+    const FICHASTOTALES = 42; // borrar si no se usa
     const FICHASJUGADOR = 21;
     const RADIOESPACIOS = 30;
     const DESELECCIONAR = 99;
