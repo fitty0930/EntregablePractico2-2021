@@ -1,0 +1,235 @@
+document.addEventListener('DOMContentLoaded', function () {
+    // CONSTANTES
+    const FICHASTOTALES = 42;
+    const FICHASJUGADOR = 21;
+    const RADIOESPACIOS = 30;
+    const DESELECCIONAR = 99;
+    const POSYENCIMATABLERO = 45; // la posicion y suficiente para evaluar si meto o no la ficha
+    const INICIOTABLEROX=230; // inicio del tablero en X
+    const FINTABLEROX=720; // final del tableor en X
+
+
+    // VARIABLES
+    let canvas = document.getElementById('connectfour');
+    let ctx = canvas.getContext('2d')
+    let partida;
+
+
+    iniciar();
+
+    // FUNCIONES
+    function iniciar() {
+        partida = new Tablero(canvas);
+        partida.nuevaPartida();
+        dibujarFondo();
+        escucharEventos();
+    }
+
+    function dibujarFondo() { // ponerla como fondo del div
+        let background = new Image();
+        background.src = "./images/fondo-juegosdemesa.jpg";
+        background.onload = function () {
+            ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+            crearFichas();
+            crearAviso();
+        }
+    }
+
+    function crearFichas() {
+        let imagenFichasRojas = new Image();
+        imagenFichasRojas.src = './images/redchip.png';
+        imagenFichasRojas.onload = () => {
+            for (let i = 0; i < FICHASJUGADOR; i++) {
+                ficha = new Ficha(100, 50 + (i * 25), RADIOESPACIOS, 'rojo', 'red', imagenFichasRojas, canvas); // poner datos de la ficha
+                partida.fichasRojas.push(ficha);
+            }
+
+            let imagenFichasAzules = new Image();
+            imagenFichasAzules.src = './images/bluechip.png';
+            imagenFichasAzules.onload = () => {
+                for (let i = 0; i < FICHASJUGADOR; i++) {
+                    ficha = new Ficha(875, 50 + (i * 25), RADIOESPACIOS, 'azul', 'blue', imagenFichasAzules, canvas);
+                    partida.fichasAzules.push(ficha);
+                }
+                dibujarTablero();
+            }
+        }
+
+
+    }
+
+
+    function escucharEventos() {
+        canvas.addEventListener('mousedown', (event) => {
+            // verificar si se clickeo alguna de mis fichas
+            if (partida.turnoDe == 'rojo') {
+                let i = 0;
+                let clickeado = false;
+                // RECORRO CADA FICHIN ROJO Y LE PREGUNTO SI LO CLICKEARON
+                while (i < partida.fichasRojas.length && !clickeado) {
+                    if (partida.turnoDe == partida.fichasRojas[i].jugador) { // iniciando el rojo 
+                        if (partida.fichasRojas[i].isClicked(event.offsetX, event.offsetY)) { // pregunto si le clickearon alguna ficha
+                            console.log("clickeada roja")
+                            partida.fichaSeleccionada = i;
+                            clickeado = true;
+                        }
+                    }
+                    i++;
+                }
+
+            } else if (partida.turnoDe == 'azul') {
+                let j = 0;
+                let clickeado = false;
+                while (j < partida.fichasAzules.length && !clickeado) {
+                    if (partida.turnoDe == partida.fichasAzules[j].jugador) {
+                        if (partida.fichasAzules[j].isClicked(event.offsetX, event.offsetY)) {
+                            console.log("clickeada azul")
+                            partida.fichaSeleccionada = j;
+                            clickeado = true;
+                        }
+                    }
+                    j++;
+                }
+            }
+
+        })
+
+        canvas.addEventListener('mousemove', (event) => {
+            if (partida.fichaSeleccionada < 21 && partida.fichaSeleccionada >= 0) {
+                if (partida.turnoDe == 'rojo') {
+                    partida.fichasRojas[partida.fichaSeleccionada].posicionarFicha(event.offsetX, event.offsetY)
+                    // console.log('moviendo rojas')
+                    // console.log(event.offsetX, event.offsetY);
+                }
+                else if ((partida.turnoDe == 'azul')) {
+                    partida.fichasAzules[partida.fichaSeleccionada].posicionarFicha(event.offsetX, event.offsetY)
+                    // console.log('moviendo azules')
+                    // console.log(event.offsetX, event.offsetY);
+                }
+                dibujarFondo();
+            }
+        })
+
+        canvas.addEventListener('mouseup', (event) => {
+            let ingreso = verificarSiIngreso();
+            if (!ingreso) {
+                //volver a la pila
+                // pregunto de quien es el turno para saber que array mirar
+                if (partida.turnoDe == 'rojo') {
+                    partida.fichasRojas[partida.fichaSeleccionada].volverALaPila();
+                
+                } else if (partida.turnoDe == 'azul') {
+                    partida.fichasAzules[partida.fichaSeleccionada].volverALaPila();
+                    
+                }
+                dibujarFondo(); // dibujo
+
+            } else {
+                partida.cambiarTurno()
+                dibujarFondo()
+            }
+            partida.fichaSeleccionada = DESELECCIONAR;
+        })
+
+        canvas.addEventListener('mouseover', () => {
+            if (partida.fichaSeleccionada < 21) {
+                let ingreso = verificarSiIngreso();
+                if (!ingreso) {
+                    //volver a la pila 
+                } else {
+                    // partida.cambiarTurno()
+                    // dibujarFondo()
+                }
+                partida.fichaSeleccionada = DESELECCIONAR;
+            }
+        })
+    }
+
+    function dibujarTablero() {
+        // el tablero
+        ctx.fillStyle = "rgb(28, 138, 46)";
+        ctx.fillRect(220, 80, 500, 450);
+        // la base del tablero
+        ctx.fillStyle = "rgb(20, 65, 34)"
+        ctx.fillRect(200, 525, 540, 30)
+
+        // mis agujeros
+        for (let i = 0; i < partida.tablero.length; i++) {
+            for (let j = 0; j < partida.tablero[i].length; j++) {
+                partida.tablero[i][j].dibujarFicha();
+            }
+        }
+
+        // fichas de cada player
+        for (let i = 0; i < FICHASJUGADOR; i++) {
+            partida.fichasRojas[i].dibujarFicha(); // dibujo mis fichas rojas
+            partida.fichasAzules[i].dibujarFicha(); // dibujo mis fichas azules
+        }
+
+    }
+
+    function crearAviso() {
+        // avisito
+        let imagenaviso = new Image();
+        imagenaviso.src = './images/your-turn.png';
+        imagenaviso.onload = () => {
+            if (partida.turnoDe == 'rojo') {
+                ctx.fillStyle = "rgb(255,255,0)"
+                ctx.fillRect(150, 10, 150, 50)
+                ctx.drawImage(imagenaviso, 150, 10, 150, 50)
+            } else if (partida.turnoDe == 'azul') {
+                ctx.fillStyle = "rgb(255,255,0)"
+                ctx.fillRect(670, 10, 150, 50)
+                ctx.drawImage(imagenaviso, 670, 10, 150, 50)
+            }
+        }
+    }
+
+    function verificarSiIngreso() {
+        let fichas;
+        // pregunto de quien es el turno para saber que array mirar
+        if (partida.turnoDe == 'rojo') {
+            fichas = partida.fichasRojas[partida.fichaSeleccionada];
+        } else if (partida.turnoDe == 'azul') {
+            fichas = partida.fichasAzules[partida.fichaSeleccionada];
+        }
+
+        // buscar posicion de mi tablero
+        if (fichas.y < POSYENCIMATABLERO && (fichas.x>INICIOTABLEROX && fichas.x<FINTABLEROX)) { // pregunto si esta sobre el tablero
+            for (let i = 0; i < partida.tablero.length; i++) {
+                // posicion en x de cada circulo tablero[i][0].x + - el radio /2 
+                let mayor = partida.tablero[i][0].x + (RADIOESPACIOS / 2); // pos + 1/3 radio
+                let menor = partida.tablero[i][0].x - (RADIOESPACIOS / 2) // pos + 1/3 radio
+                if (fichas.x < mayor && fichas.x > menor) {
+                    let j = 5;
+                    while (j >= 0) {
+                        if (partida.tablero[i][j].jugador == 'ninguno') {
+                            partida.tablero[i][j].jugador = partida.turnoDe;
+                            partida.tablero[i][j].color = fichas.color;
+                            partida.tablero[i][j].imagen = fichas.imagen;
+
+                            if (partida.turnoDe == 'rojo') {
+                                partida.fichasRojas.splice(partida.fichaSeleccionada);
+                            }
+                            else if (partida.turnoDe == 'azul') {
+                                partida.fichasAzules.splice(partida.fichaSeleccionada);
+                            }
+                            dibujarFondo();
+                            partida.chequearGanador();
+                            return true;
+                        }
+
+                        j--;
+
+
+                    }
+                }
+            }
+            // console.log("lista para ingresar")
+            return false;
+        }else {
+            return false;
+        }
+    }
+})
+
