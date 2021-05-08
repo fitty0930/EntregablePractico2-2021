@@ -38,14 +38,10 @@ class Tablero {
     }
 
     chequearGanador(posI, posJ) {
-        // recorrido horizontal
-        this.chequearHorizontal(posJ);
-
-        // recorrido vertical
-        this.chequearVertical(posI);
-
-        // recorrido diagonal
-        this.chequearDiagonal(posI, posJ)
+        // recorrido horizontal            // recorrido vertical           // recorrido diagonal
+        if (this.chequearHorizontal(posJ) || this.chequearVertical(posI) || this.chequearDiagonal()) {
+            return true
+        } else return false;
     }
 
     chequearHorizontal(posJ) {
@@ -56,9 +52,8 @@ class Tablero {
             }
         }
         if (count == 3) {
-            console.log("ganaste");
-            // hacer algo con lo ganado
-        }
+            return true;
+        } else return false;
     }
 
     chequearVertical(posI) {
@@ -69,12 +64,41 @@ class Tablero {
             }
         }
         if (count == 3) {
-            console.log("ganaste");
-            // hacer algo con lo ganado
+            return true;
+        } else return false;
+    }
+
+    chequearDiagonal() {
+        // diagonal ascendente       // diagonaldescendente
+        if (this.diagonalAscendente() || this.diagonalDescendente()) {
+            return true;
+        }
+        else return false;
+    }
+
+    diagonalAscendente() {
+        for (let i = 3; i < this.TABLEROCOLS; i++) {
+            for (let j = 0; j < this.TABLEROROWS - 3; j++) {
+                if (this.tablero[i][j].jugador == this.turnoDe
+                    && this.tablero[i - 1][j + 1].jugador == this.turnoDe
+                    && this.tablero[i - 2][j + 2].jugador == this.turnoDe
+                    && this.tablero[i - 3][j + 3].jugador == this.turnoDe) {
+                    return true;
+                }
+            }
         }
     }
 
-    chequearDiagonal(posI, posJ) {
-        // TBC
+    diagonalDescendente() {
+        for (let i = 3; i < this.TABLEROCOLS; i++) {
+            for (let j = 3; j < this.TABLEROROWS; j++) {
+                if (this.tablero[i][j].jugador == this.turnoDe
+                    && this.tablero[i - 1][j - 1].jugador == this.turnoDe
+                    && this.tablero[i - 2][j - 2].jugador == this.turnoDe
+                    && this.tablero[i - 3][j - 3].jugador == this.turnoDe) {
+                    return true;
+                }
+            }
+        }
     }
 }

@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // FUNCIONES
     function iniciar() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
         partida = new Tablero(canvas);
         partida.nuevaPartida();
         dibujarFondo();
@@ -56,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-
+        
     }
 
 
@@ -211,8 +212,12 @@ document.addEventListener('DOMContentLoaded', function () {
                                 else if (partida.turnoDe == 'azul') {
                                     partida.fichasAzules.splice(partida.fichaSeleccionada);
                                 }
-                                dibujarTablero;
-                                partida.chequearGanador(i,j);
+                                if(partida.chequearGanador(i,j)){
+                                    console.log("gano el "+partida.turnoDe);
+                                    // mostrar algo
+                                    // agregar un listener que al clickear de iniciar
+                                    // iniciar();
+                                }
                                 return true;
                             }
     
@@ -222,14 +227,22 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                 }
-                // console.log("lista para ingresar")
                 return false;
             }else {
                 return false;
             }
         }
-        // buscar posicion de mi tablero
         
     }
 })
+
+function ganador(ganador){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    // TBC
+    if(ganador=='rojo'){
+        
+    }else if(ganador=='azul'){
+        
+    }
+}
 
