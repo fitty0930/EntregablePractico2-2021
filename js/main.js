@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (ganador) {
             console.log("ganador " + ganador)
             let imagenganador = new Image();
-            imagenganador.src = '/images/ganaste.png'
+            imagenganador.src = './images/ganaste.png'
             imagenganador.onload = () => {
                 ctx.fillStyle = "rgb(0,0,0)"
                 if (ganador == 'rojo') {
