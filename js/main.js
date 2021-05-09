@@ -5,21 +5,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const RADIOESPACIOS = 30;
     const DESELECCIONAR = 99;
     const POSYENCIMATABLERO = 45; // la posicion y suficiente para evaluar si meto o no la ficha
-    const INICIOTABLEROX=230; // inicio del tablero en X
-    const FINTABLEROX=720; // final del tableor en X
+    const INICIOTABLEROX = 230; // inicio del tablero en X
+    const FINTABLEROX = 720; // final del tableor en X
 
 
     // VARIABLES
     let canvas = document.getElementById('connectfour');
     let ctx = canvas.getContext('2d')
     let partida;
-
+    let imageData = null;
 
     iniciar();
 
     // FUNCIONES
     function iniciar() {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         partida = new Tablero(canvas);
         partida.nuevaPartida();
         dibujarFondo();
@@ -27,12 +27,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function dibujarFondo() { // ponerla como fondo del div
-        let background = new Image();
-        background.src = "./images/fondo-juegosdemesa.jpg";
-        background.onload = function () {
-            ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-            crearFichas();
-            crearAviso();
+        // console.log(imageData)
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        if (imageData != null) {
+            ctx.putImageData(imageData, 0, 0);
+            dibujarTablero();
+
+        } else {
+            let background = new Image();
+            background.src = "./images/fondo-juegosdemesa.jpg";
+            background.onload = function () {
+                ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+                crearFichas();
+            }
         }
     }
 
@@ -57,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        
+
     }
 
 
@@ -117,27 +124,27 @@ document.addEventListener('DOMContentLoaded', function () {
         })
     }
 
-    function eventoTerminado(){
+    function eventoTerminado() {
         let ingreso = verificarSiIngreso();
-            if (!ingreso) {
-                //volver a la pila
-                // pregunto de quien es el turno para saber que array mirar
-                if (partida.turnoDe == 'rojo') {
-                    if(partida.fichasRojas[partida.fichaSeleccionada]!=null)
+        if (!ingreso) {
+            //volver a la pila
+            // pregunto de quien es el turno para saber que array mirar
+            if (partida.turnoDe == 'rojo') {
+                if (partida.fichasRojas[partida.fichaSeleccionada] != null)
                     partida.fichasRojas[partida.fichaSeleccionada].volverALaPila();
-                
-                } else if (partida.turnoDe == 'azul') {
-                    if(partida.fichasRojas[partida.fichaSeleccionada]!=null)
-                    partida.fichasAzules[partida.fichaSeleccionada].volverALaPila();
-                    
-                }
-                dibujarFondo(); // dibujo
 
-            } else {
-                partida.cambiarTurno()
-                dibujarFondo()
+            } else if (partida.turnoDe == 'azul') {
+                if (partida.fichasRojas[partida.fichaSeleccionada] != null)
+                    partida.fichasAzules[partida.fichaSeleccionada].volverALaPila();
+
             }
-            partida.fichaSeleccionada = DESELECCIONAR;
+            dibujarFondo(); // dibujo
+
+        } else {
+            partida.cambiarTurno()
+            dibujarFondo()
+        }
+        partida.fichaSeleccionada = DESELECCIONAR;
     }
 
     function dibujarTablero() {
@@ -155,33 +162,52 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        
+        imageData = ctx.getImageData(0, 0, canvas.width, canvas.height) // despues de mi tablero
         dibujarFichas();
+        crearAviso();
     }
 
-    function dibujarFichas(){
+    function dibujarFichas() {
         // fichas de cada player
-        for (let i = 0; i < FICHASJUGADOR; i++) {
-            partida.fichasRojas[i].dibujarFicha(); // dibujo mis fichas rojas
+        for (let i = 0; i < partida.fichasRojas.length; i++) {
+            partida.fichasRojas[i].dibujarFicha(); // dibujo mis fichas rojas   
+        }
+        for (let i = 0; i < partida.fichasAzules.length; i++) {
             partida.fichasAzules[i].dibujarFicha(); // dibujo mis fichas azules
         }
     }
 
-    function crearAviso() {
+    function crearAviso(ganador) {
         // avisito
+        if (ganador) {
+            console.log("ganador " + ganador)
+            let imagenganador = new Image();
+            imagenganador.src = '/images/ganaste.png'
+            imagenganador.onload = () => {
+                ctx.fillStyle = "rgb(0,0,0)"
+                if (ganador == 'rojo') {
+                    ctx.drawImage(imagenganador, 150, 10, 150, 50)
+                }
+                else if (ganador == 'azul') {
+                    ctx.drawImage(imagenganador, 670, 10, 150, 50)
+                }
+            }
+
+        }
         let imagenaviso = new Image();
-        imagenaviso.src = './images/your-turn.png';
+        imagenaviso.src = './images/yourturn.png';
         imagenaviso.onload = () => {
             if (partida.turnoDe == 'rojo') {
-                ctx.fillStyle = "rgb(255,255,0)"
-                ctx.fillRect(150, 10, 150, 50)
+                // ctx.fillStyle = "rgb(255,255,0)"
+                // ctx.fillRect(150, 10, 150, 50)
                 ctx.drawImage(imagenaviso, 150, 10, 150, 50)
             } else if (partida.turnoDe == 'azul') {
-                ctx.fillStyle = "rgb(255,255,0)"
-                ctx.fillRect(670, 10, 150, 50)
+                // ctx.fillStyle = "rgb(255,255,0)"
+                // ctx.fillRect(670, 10, 150, 50)
                 ctx.drawImage(imagenaviso, 670, 10, 150, 50)
             }
         }
+
     }
 
     function verificarSiIngreso() {
@@ -192,8 +218,8 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (partida.turnoDe == 'azul') {
             fichas = partida.fichasAzules[partida.fichaSeleccionada];
         }
-        if(fichas!=null){
-            if (fichas.y < POSYENCIMATABLERO && (fichas.x>INICIOTABLEROX && fichas.x<FINTABLEROX)) { // pregunto si esta sobre el tablero
+        if (fichas != null) {
+            if (fichas.y < POSYENCIMATABLERO && (fichas.x > INICIOTABLEROX && fichas.x < FINTABLEROX)) { // pregunto si esta sobre el tablero
                 for (let i = 0; i < partida.tablero.length; i++) {
                     // posicion en x de cada circulo tablero[i][0].x + - el radio /2 
                     let mayor = partida.tablero[i][0].x + (RADIOESPACIOS / 2); // pos + 1/3 radio
@@ -205,44 +231,47 @@ document.addEventListener('DOMContentLoaded', function () {
                                 partida.tablero[i][j].jugador = partida.turnoDe;
                                 partida.tablero[i][j].color = fichas.color;
                                 partida.tablero[i][j].imagen = fichas.imagen;
-    
+
                                 if (partida.turnoDe == 'rojo') {
-                                    partida.fichasRojas.splice(partida.fichaSeleccionada);
+                                    partida.fichasRojas.splice(partida.fichaSeleccionada, 1);
                                 }
                                 else if (partida.turnoDe == 'azul') {
-                                    partida.fichasAzules.splice(partida.fichaSeleccionada);
+                                    partida.fichasAzules.splice(partida.fichaSeleccionada, 1);
                                 }
-                                if(partida.chequearGanador(i,j)){
-                                    console.log("gano el "+partida.turnoDe);
-                                    // mostrar algo
-                                    // agregar un listener que al clickear de iniciar
-                                    // iniciar();
+                                dibujarFondo();
+                                if (partida.chequearGanador(i, j)) {
+                                    ganador(partida.turnoDe)
+                                    partida.turnoDe = 'ninguno'
+                                }else if(partida.fichasAzules.length==0 && partida.fichasRojas==0){
+                                    partida.turnoDe = 'ninguno'
                                 }
                                 return true;
                             }
-    
+
                             j--;
-    
-    
+
+
                         }
                     }
                 }
                 return false;
-            }else {
+            } else {
                 return false;
             }
         }
-        
+
+    }
+
+    function ganador(ganador) {
+        // ctx.clearRect(0,0,canvas.width,canvas.height);
+        // TBC
+        if (ganador == 'rojo') {
+            crearAviso('rojo')
+        } else if (ganador == 'azul') {
+            crearAviso('azul')
+        }
     }
 })
 
-function ganador(ganador){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    // TBC
-    if(ganador=='rojo'){
-        
-    }else if(ganador=='azul'){
-        
-    }
-}
+
 
