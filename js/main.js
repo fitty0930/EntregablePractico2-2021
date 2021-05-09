@@ -14,7 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
     let ctx = canvas.getContext('2d')
     let partida;
     let imageData = null;
-
+    let btnreload= document.getElementById('reload');
+    btnreload.addEventListener('click', function(){
+        imageData=null;
+        iniciar();
+    });
     iniciar();
 
     // FUNCIONES

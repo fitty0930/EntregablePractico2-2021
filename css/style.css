@@ -6,3 +6,12 @@ canvas{
     padding: 20px;
 }
 
+.botonreinicio{
+    float: right;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
