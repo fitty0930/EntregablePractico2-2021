@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 if (partida.chequearGanador(i, j)) {
                                     ganador(partida.turnoDe)
                                     partida.turnoDe = 'ninguno'
-                                }else if(partida.fichasAzules.length==0 && partida.fichasRojas==0){
+                                }else if(partida.fichasAzules.length==0 && partida.fichasRojas.length==0){
                                     partida.turnoDe = 'ninguno'
                                 }
                                 return true;
