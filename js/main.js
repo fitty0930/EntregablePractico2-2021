@@ -30,8 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
         escucharEventos();
     }
 
-    function dibujarFondo() { // ponerla como fondo del div
-        // console.log(imageData)
+    function dibujarFondo() { 
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         if (imageData != null) {
             ctx.putImageData(imageData, 0, 0);
@@ -104,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     j++;
                 }
             }
-
         })
 
         canvas.addEventListener('mousemove', (event) => {
@@ -195,6 +193,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 else if (ganador == 'azul') {
                     ctx.drawImage(imagenganador, 670, 10, 150, 50)
                 }
+                imageData = ctx.getImageData(0, 0, canvas.width, canvas.height) // para que se congele al ganar
             }
 
         }
