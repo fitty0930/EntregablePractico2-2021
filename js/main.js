@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const INICIOTABLEROX = 230; // inicio del tablero en X
     const FINTABLEROX = 720; // final del tableor en X
 
-
     // VARIABLES
     let canvas = document.getElementById('connectfour');
     let ctx = canvas.getContext('2d')
@@ -81,7 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 while (i < partida.fichasRojas.length && !clickeado) {
                     if (partida.turnoDe == partida.fichasRojas[i].jugador) { // iniciando el rojo 
                         if (partida.fichasRojas[i].isClicked(event.offsetX, event.offsetY)) { // pregunto si le clickearon alguna ficha
-                            console.log("clickeada roja")
                             partida.fichaSeleccionada = i;
                             clickeado = true;
                         }
@@ -95,7 +93,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 while (j < partida.fichasAzules.length && !clickeado) {
                     if (partida.turnoDe == partida.fichasAzules[j].jugador) {
                         if (partida.fichasAzules[j].isClicked(event.offsetX, event.offsetY)) {
-                            console.log("clickeada azul")
                             partida.fichaSeleccionada = j;
                             clickeado = true;
                         }
@@ -129,18 +126,20 @@ document.addEventListener('DOMContentLoaded', function () {
     function eventoTerminado() {
         let ingreso = verificarSiIngreso();
         if (!ingreso) {
-            //volver a la pila
-            // pregunto de quien es el turno para saber que array mirar
-            if (partida.turnoDe == 'rojo') {
-                if (partida.fichasRojas[partida.fichaSeleccionada] != null)
-                    partida.fichasRojas[partida.fichaSeleccionada].volverALaPila();
+            if(imageData!=null){
+                //volver a la pila
+                // pregunto de quien es el turno para saber que array mirar
+                if (partida.turnoDe == 'rojo') {
+                    if (partida.fichasRojas[partida.fichaSeleccionada] != null)
+                        partida.fichasRojas[partida.fichaSeleccionada].volverALaPila();
 
-            } else if (partida.turnoDe == 'azul') {
-                if (partida.fichasRojas[partida.fichaSeleccionada] != null)
-                    partida.fichasAzules[partida.fichaSeleccionada].volverALaPila();
+                } else if (partida.turnoDe == 'azul') {
+                    if (partida.fichasRojas[partida.fichaSeleccionada] != null)
+                        partida.fichasAzules[partida.fichaSeleccionada].volverALaPila();
 
+                }
+                dibujarFondo();
             }
-            dibujarFondo(); // dibujo
 
         } else {
             partida.cambiarTurno()
@@ -182,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function crearAviso(ganador) {
         // avisito
         if (ganador) {
-            console.log("ganador " + ganador)
             let imagenganador = new Image();
             imagenganador.src = './images/ganaste.png'
             imagenganador.onload = () => {
