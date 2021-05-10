@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         } else {
             let background = new Image();
-            background.src = "./images/fondo-juegosdemesa.jpg";
+            background.src = "./images/fondo-juegosdemesa.png";
             background.onload = function () {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                 crearFichas();
@@ -199,13 +199,9 @@ document.addEventListener('DOMContentLoaded', function () {
         imagenaviso.src = './images/yourturn.png';
         imagenaviso.onload = () => {
             if (partida.turnoDe == 'rojo') {
-                // ctx.fillStyle = "rgb(255,255,0)"
-                // ctx.fillRect(150, 10, 150, 50)
-                ctx.drawImage(imagenaviso, 150, 10, 150, 50)
+                ctx.drawImage(imagenaviso, 150, 525, 150, 50)
             } else if (partida.turnoDe == 'azul') {
-                // ctx.fillStyle = "rgb(255,255,0)"
-                // ctx.fillRect(670, 10, 150, 50)
-                ctx.drawImage(imagenaviso, 670, 10, 150, 50)
+                ctx.drawImage(imagenaviso, 670, 525, 150, 50)
             }
         }
 
