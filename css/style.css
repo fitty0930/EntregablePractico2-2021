@@ -19,3 +19,16 @@ canvas{
 .ocultar{
     display: none;
 }
+
+.example{
+    width: 33.33333%;
+    float: left;
+    border-left: 2px solid white;
+    padding-right: 1px;
+}
+
+.exampleimg{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
