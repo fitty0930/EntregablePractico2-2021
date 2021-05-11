@@ -6,3 +6,29 @@ canvas{
     padding: 20px;
 }
 
+.botonreinicio{
+    float: right;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+
+.ocultar{
+    display: none;
+}
+
+.example{
+    width: 33.33333%;
+    float: left;
+    border-left: 2px solid white;
+    padding-right: 1px;
+}
+
+.exampleimg{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
