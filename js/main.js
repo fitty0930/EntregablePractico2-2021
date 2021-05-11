@@ -13,11 +13,15 @@ document.addEventListener('DOMContentLoaded', function () {
     let ctx = canvas.getContext('2d')
     let partida;
     let imageData = null;
-    let btnreload= document.getElementById('reload');
-    btnreload.addEventListener('click', function(){
-        imageData=null;
+    let btnreload = document.getElementById('reload');
+    let avisorojo = document.getElementById('avisorojo');
+    let avisoazul = document.getElementById('avisoazul');
+
+    btnreload.addEventListener('click', function () {
+        imageData = null;
         iniciar();
     });
+
     iniciar();
 
     // FUNCIONES
@@ -29,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         escucharEventos();
     }
 
-    function dibujarFondo() { 
+    function dibujarFondo() {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         if (imageData != null) {
             ctx.putImageData(imageData, 0, 0);
@@ -126,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function eventoTerminado() {
         let ingreso = verificarSiIngreso();
         if (!ingreso) {
-            if(imageData!=null){
+            if (imageData != null) {
                 //volver a la pila
                 // pregunto de quien es el turno para saber que array mirar
                 if (partida.turnoDe == 'rojo') {
@@ -195,15 +199,20 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
         }
-        let imagenaviso = new Image();
-        imagenaviso.src = './images/yourturn.png';
-        imagenaviso.onload = () => {
-            if (partida.turnoDe == 'rojo') {
-                ctx.drawImage(imagenaviso, 150, 525, 150, 50)
-            } else if (partida.turnoDe == 'azul') {
-                ctx.drawImage(imagenaviso, 670, 525, 150, 50)
-            }
+
+        if (partida.turnoDe == 'rojo') {
+            // algo
+            avisorojo.classList.remove('ocultar')
+            avisoazul.classList.add('ocultar')
+        } else if (partida.turnoDe == 'azul') {
+            // algo
+            avisoazul.classList.remove('ocultar')
+            avisorojo.classList.add('ocultar')
+        } else {
+            avisorojo.classList.add('ocultar')
+            avisoazul.classList.add('ocultar')
         }
+
 
     }
 
@@ -239,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 if (partida.chequearGanador(i, j)) {
                                     ganador(partida.turnoDe)
                                     partida.turnoDe = 'ninguno'
-                                }else if(partida.fichasAzules.length==0 && partida.fichasRojas.length==0){
+                                } else if (partida.fichasAzules.length == 0 && partida.fichasRojas.length == 0) {
                                     partida.turnoDe = 'ninguno'
                                 }
                                 return true;

@@ -18,51 +18,69 @@
         <br>
         <a class="navbar-brand" href="">
             <img src="images/4inline.png" alt="" width="40" height="35" class="d-inline-block align-text-top">
-            Cuatro en linea
+            Cuatro en linea 
         </a>
         <br>
     </nav>
     <br>
-    <div class="container">
+    <div class="container-fluid"> <button id="reload" class="botonreinicio">
+            <img src="images/reset.png" width="100" height="60">
+        </button>
+    </div>
+    <div class="container-fluid">
         <div class="row">
+            <div class="col-md-1">
+                <div id="avisorojo" class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                    <div class="card-header"> Turno del</div>
+                    <div class="card-body">
+                        <h5 class="card-title"> Rojo </h5>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-10 ">
                 <canvas id="connectfour" width="1000" height="600">
                     <!-- alinear al centro  -->
                 </canvas>
             </div>
-            <div class="col-md-2"> 
-                <button id="reload" class="botonreinicio"> 
-                <img src="images/reset.png" width="100" height="60">    
-                </button>
+            <div class="col-md-1">
+                <div id="avisoazul" class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                    <div class="card-header"> Turno del</div>
+                    <div class="card-body">
+                        <h5 class="card-title"> Azul </h5>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-1"></div>
+                <div class="col-md-9">
                     <div>
                         <h5 class="bg-dark text-white"> ¿Como jugar? </h5>
-                        <p> Arrastre las fichas por la parte superior del tablero e intente formar 4 fichas en linea antes
-                        que su oponente</p>
+                        <p> Arrastre las fichas por la parte superior del tablero e intente formar 4 fichas en linea
+                            antes
+                            que su oponente</p>
                     </div>
                     <div>
                         <h5 class="bg-primary text-white"> ¿Como ganar? </h5>
                         <p> Posicione las fichas de su color de tal manera que se queden 4 en linea</p>
                         <div class="d-inline-block">
                             <p class="bg-primary text-white"> Horizontalmente </p>
-                                <img src="images/ganar horizontal.png">
+                            <img src="images/ganar horizontal.png">
                         </div>
                         <div class="d-inline-block">
                             <p class="bg-primary text-white"> Verticalmente </p>
-                                <img src="images/ganar vertical.png">
+                            <img src="images/ganar vertical.png">
                         </div>
                         <div class="d-inline-block">
                             <p class="bg-primary text-white"> Diagonalmente </p>
-                                <img src="images/ganar diagonal.jpg">
+                            <img src="images/ganar diagonal.jpg">
                         </div>
                     </div>
                 </div>
+                <div class="col-md-2"></div>
             </div>
         </div>
     </div>

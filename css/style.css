@@ -15,3 +15,7 @@ canvas{
     overflow: hidden;
     outline:none;
 }
+
+.ocultar{
+    display: none;
+}
