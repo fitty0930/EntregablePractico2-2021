@@ -125,6 +125,14 @@ document.addEventListener('DOMContentLoaded', function () {
         canvas.addEventListener('mouseover', () => {
             eventoTerminado()
         })
+
+        canvas.addEventListener('mouseleave',()=>{
+            eventoTerminado();
+            let selection=window.getSelection();
+            selection.removeAllRanges();
+            // evita que se seleccione todo al hacer mouseleave con el click presionado 
+            // y se intente draggear el contenido de la pagina seleccionado en lugar de la ficha
+        })
     }
 
     function eventoTerminado() {
