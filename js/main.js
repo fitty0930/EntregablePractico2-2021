@@ -209,11 +209,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (partida.turnoDe == 'rojo') {
-            // algo
             avisorojo.classList.remove('ocultar')
             avisoazul.classList.add('ocultar')
         } else if (partida.turnoDe == 'azul') {
-            // algo
             avisoazul.classList.remove('ocultar')
             avisorojo.classList.add('ocultar')
         } else {
@@ -236,8 +234,8 @@ document.addEventListener('DOMContentLoaded', function () {
             if (fichas.y < POSYENCIMATABLERO && (fichas.x > INICIOTABLEROX && fichas.x < FINTABLEROX)) { // pregunto si esta sobre el tablero
                 for (let i = 0; i < partida.tablero.length; i++) {
                     // posicion en x de cada circulo tablero[i][0].x + - el radio /2 
-                    let mayor = partida.tablero[i][0].x + (RADIOESPACIOS / 2); // pos + 1/3 radio
-                    let menor = partida.tablero[i][0].x - (RADIOESPACIOS / 2) // pos + 1/3 radio
+                    let mayor = partida.tablero[i][0].x + (RADIOESPACIOS / 2); // pos + 1/2 radio
+                    let menor = partida.tablero[i][0].x - (RADIOESPACIOS / 2) // pos - 1/2 radio
                     if (fichas.x < mayor && fichas.x > menor) {
                         let j = 5;
                         while (j >= 0) {
@@ -277,8 +275,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function ganador(ganador) {
-        // ctx.clearRect(0,0,canvas.width,canvas.height);
-        // TBC
         if (ganador == 'rojo') {
             crearAviso('rojo')
         } else if (ganador == 'azul') {
